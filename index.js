@@ -1,12 +1,13 @@
 const express = require("express");
+require('dotenv').config();
 const { Server } = require("socket.io");
 const { createServer } = require("node:http");
 const jwt = require('jsonwebtoken');
 const { auth } = require("./middleware");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+
 const mongoose = require("mongoose");
-const MONGOOSE_URL = process.env.MONGOOSE_URL;
 
 
 const app = express();
@@ -28,7 +29,7 @@ app.use(bodyParser.json({limit: '10mb'}));
 
 mongoose.set("strictQuery", false);
 const mongopass = process.env.MONGODB_SECRET;
-const userDB = mongoose.connect(`{MONGOOSE_URL}`);
+const userDB = mongoose.connect(mongopass);
 
 
 
@@ -78,7 +79,7 @@ app.post("/login", async (req,res) => {
     })
 });
 
-
+ 
 app.post("/signup", async (req,res) => {
     
     await User.findOne({emailId: req.body.email}).then(async found => {
