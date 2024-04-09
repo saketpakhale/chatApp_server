@@ -1,4 +1,4 @@
-const JWT_SECRET = "secret";
+const JWT_SECRET = process.env.JWT_SECRET;
 var jwt = require('jsonwebtoken');
 
 

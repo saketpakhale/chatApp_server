@@ -6,7 +6,7 @@ const { auth } = require("./middleware");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
-
+const MONGOOSE_URL = process.env.MONGOOSE_URL;
 
 
 const app = express();
@@ -28,7 +28,7 @@ app.use(bodyParser.json({limit: '10mb'}));
 
 mongoose.set("strictQuery", false);
 const mongopass = process.env.MONGODB_SECRET;
-const userDB = mongoose.connect(`mongodb+srv://saketpakhale:chat-app@chat-app.0jve4jk.mongodb.net/?retryWrites=true&w=majority`);
+const userDB = mongoose.connect(`{MONGOOSE_URL}`);
 
 
 
