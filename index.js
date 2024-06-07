@@ -16,7 +16,7 @@ const app = express();
 
 app.use(cors());
 const server = createServer(app);
-const io = new Server(server, {cors: {origin: config.clientOrigin}});
+const io = new Server(server, {cors: {origin: '*'}});
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({limit: '10mb'}));
 
