@@ -52,11 +52,14 @@ router.post("/signup", async (req,res) => {
     
 });
 
-router.get("/", auth , async (req,res) => {
+router.get("/usercontacts", auth , async (req,res) => {
     await User.findOne({emailId : req.userId}).then(found => {
         if(found) {
             const contacts = found.contactList;
-            res.send(contacts);
+            const allContacts = contacts.map((contact) => {
+                return {id: contact.emailId, name: contact.name}
+            });
+            res.send(allContacts);
         } else {
             res.send({result: "User not found"});
         }
@@ -131,5 +134,28 @@ router.post("/newcontact",auth, async (req,res) => {
         }
     })
 });
+
+router.get("/getconvo", auth, async (req,res) => {
+    const userId = req.userId;
+    const secondUser = req.query.selectedContact;
+    
+    try {
+        await User.findOne({emailId: userId})
+        .then((found) => {
+            if(found) {
+                const contact = found.contactList.filter(contact => contact.emailId === secondUser);
+                if(contact) {
+                    res.send(contact[0]);
+                } else {
+                    res.send({message:"reciever not found"})
+                } 
+            } else {
+                res.send({message: "user not found"});
+            }
+        })
+    } catch (error) {
+        res.status(500).send("Server Error",error);
+    }
+})
 
 module.exports = router;

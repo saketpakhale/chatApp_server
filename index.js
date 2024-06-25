@@ -39,12 +39,8 @@ io.on("connection", (socket) => {
       if (recipientSocketId) {
         io.to(recipientSocketId).emit('recieve-message',msg);
       }
-      if(senderSocketId) {
-        io.to(senderSocketId).emit('recieve-message',msg);
-      }
   
       try {
-        console.log(msg);
         const sender = await User.findOne({ emailId: msg.senderId });
         const recipient = await User.findOne({ emailId: msg.recieverId });
   
